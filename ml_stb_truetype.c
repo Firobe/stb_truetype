@@ -382,7 +382,7 @@ value ml_stbtt_pack_font_ranges(value pack_context, value font_info, value font_
   CAMLlocal3(font_range, packed_ranges, ret);
 
   int num_ranges = Wosize_val(font_ranges), i;
-  stbtt_pack_range *ranges = alloca(sizeof (stbtt_pack_range) * num_ranges);
+  stbtt_pack_range *ranges = malloc(sizeof (stbtt_pack_range) * num_ranges);
 
   packed_ranges = caml_alloc(num_ranges, 0);
   for (i = 0; i < num_ranges; ++i)
@@ -406,6 +406,8 @@ value ml_stbtt_pack_font_ranges(value pack_context, value font_info, value font_
     ret = caml_alloc(1, 0);
     Store_field(ret, 0, packed_ranges);
   }
+
+  free(ranges);
 
   CAMLreturn(ret);
 }
